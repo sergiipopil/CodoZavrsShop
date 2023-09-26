@@ -2,7 +2,7 @@
 
 namespace Shop.Classes
 {
-    public class Product
+    public class Product : ProductManager
     {
         public const string Currency = "EUR";
         public readonly DateTime Expiration = DateTime.Now.AddMonths(1);
@@ -10,10 +10,14 @@ namespace Shop.Classes
         public required string Title { get; set; }
         public required int Count { get; set; }
         public required decimal Price { get; set; }
-        public int Weight { get; set; }        
+        public int Weight { get; set; }
         [SetsRequiredMembers]
         public Product()
         {
+        }
+        public Product(List<Product> list)
+        {
+            ProductList = list;
         }
     }
 }
