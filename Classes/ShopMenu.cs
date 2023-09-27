@@ -14,6 +14,8 @@ namespace Shop.Classes
     public class ShopMenu
     {
         public Product product = new Product();
+        public Shop shop = new Shop();
+        public ShopManager shopManager = new ShopManager();
         public ShopMenu()
         {
             MainMenu();
@@ -116,7 +118,7 @@ namespace Shop.Classes
         {
             InitProductList();
             Console.Clear();
-            Console.WriteLine("You are welcome to Codozavrs shop\n");
+            Console.WriteLine($"You are welcome to {shop.Name}\n");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Main menu:\n\n" +
                 "Press 0 - EXIT\n" +
@@ -179,7 +181,9 @@ namespace Shop.Classes
                 "Press 4 - Get all items\n" +
                 "Press 5 - Get item details by Id\n" +
                 "Press 6 - Get item details by Title\n" +
-                "Press 7 - Delete expiration products\n");
+                "Press 7 - Delete expiration products\n"+
+                "Press 8 - Open shop\n" +
+                "Press 9 - Close shop\n");
             Console.ResetColor();
             Console.Write("Select menu item:");
             bool isCorrectMode = Enum.TryParse(Console.ReadLine(), out SellerMode sellerModeType);
@@ -223,6 +227,14 @@ namespace Shop.Classes
                         Console.Write("Please enter Title of product which you want get details:");
                         string title = Console.ReadLine();
                         product.GetProductDetail(title);
+                        break;
+                    case SellerMode.OpenShop:
+                        Console.WriteLine("Please enter the opening time of the shop (for example 8:00):");
+                        string openTime = Console.ReadLine();
+                        shopManager.Open(openTime);
+                        break;
+                    case SellerMode.CloseShop:
+                        shopManager.Close();
                         break;
                 }
                 SellerMenu();
