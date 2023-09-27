@@ -9,7 +9,7 @@ namespace Shop.Classes.forms
 {
     internal class LogginForm
     {
-        private readonly int MaxAttempts = 3; // Добавляем readonly
+        private readonly int MaxAttempts = 3;
 
         public void NewLogginForm()
         {
