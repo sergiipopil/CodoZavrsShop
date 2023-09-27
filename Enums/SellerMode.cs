@@ -9,6 +9,8 @@
         GetAllItems = 4,
         ItemDetailsById = 5,
         ItemDetailsByTitle = 6,
-        DeleteExpirationProducts = 7
+        DeleteExpirationProducts = 7,
+        OpenShop = 8,
+        CloseShop = 9
     }
 }
