@@ -156,8 +156,8 @@ namespace Shop.Classes
                         registrationForm.NewRegistrationForm();
                         break;
                     case AppMode.Loggin:
-                        LogginForm userLoggin = new LogginForm();
-                        userLoggin.NewLogginForm();
+                        LoginForm userLoggin = new LoginForm();
+                        userLoggin.TryLogin();
                         break;
 
                     case AppMode.SearchProduct:

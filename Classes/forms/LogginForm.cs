@@ -7,15 +7,25 @@ using System.Threading.Tasks;
 
 namespace Shop.Classes.forms
 {
-    internal class LogginForm
+    //  В этом классе я передаю данные в Loggin.cs где они будут сравниватся
+    //  с данными в json файле
+    //  ->
+
+    internal class LoginForm
     {
-        private readonly int MaxAttempts = 3;
+        private const int MaxAttempts = 3;
+        private readonly int MaxAttemptsForReset = 5;
 
-        public void NewLogginForm()
+        private int attempts;
+
+        public LoginForm()
         {
-            int attempts = MaxAttempts;
+            attempts = MaxAttempts;
+        }
 
-            while (attempts > 0)
+        public bool TryLogin()
+        {
+            do
             {
                 Console.WriteLine("Enter your first name:");
                 string firstName = Console.ReadLine();
@@ -25,8 +35,8 @@ namespace Shop.Classes.forms
 
                 if (Loggin.TryLogin(firstName, password))
                 {
-                    Console.WriteLine("Login successful");
-                    break;
+                    Console.WriteLine($"Login successful. Hello {firstName}");
+                    return true;
                 }
                 else
                 {
@@ -40,7 +50,20 @@ namespace Shop.Classes.forms
                         Console.WriteLine("Login failed. Try again later.");
                     }
                 }
-            }
+            } while (attempts > 0);
+
+            return false;
+        }
+
+        public bool TryLogin(string firstName, string password)
+        {
+            attempts = MaxAttempts; // Reset attempts when using overload
+            return Loggin.TryLogin(firstName, password);
+        }
+
+        public void ResetAttempts()
+        {
+            attempts = MaxAttemptsForReset;
         }
     }
 }

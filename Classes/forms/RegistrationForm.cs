@@ -9,112 +9,104 @@ using System.Threading.Tasks;
 
 namespace Shop.Classes.forms
 {
+    //  В этом классе я передаю данные в Registration.cs где после они будут добавленные 
+    //  в файл json где я буду хранить информацию о пользователе, тут также данные будут
+    //  валидироватся, перед отправкой в Registration.cs
 
     internal class RegistrationForm
     {
         private const int MaxAttempts = 3;
+        private readonly PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.GetInstance();
 
         //Validations
-        static bool IsValidPassword(string password)
+        private static bool IsValidPassword(string password)
         {
-            if (password.Length < 8)
-                return false;
-
-            bool hasUpperCase = false;
-            bool hasLowerCase = false;
-            bool hasSymbol = false;
-            bool hasNumber = false;
-
-            foreach (char c in password)
-            {
-                if (char.IsUpper(c))
-                    hasUpperCase = true;
-
-                if (char.IsLower(c))
-                    hasLowerCase = true;
-
-                if (char.IsLetterOrDigit(c))
-                    hasSymbol = true;
-                if (char.IsNumber(c))
-                    hasNumber = true;
-            }
-
-            return hasUpperCase && hasLowerCase && hasSymbol && hasNumber;
+            return password.Length >= 8 &&
+                   password.Any(char.IsUpper) &&
+                   password.Any(char.IsLower) &&
+                   password.Any(char.IsDigit) &&
+                   password.Any(c => !char.IsLetterOrDigit(c));
         }
 
-        static bool IsValidEmail(string email)
+        private static bool IsValidEmail(string email)
         {
             if (email == null)
                 return false;
 
             string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
-            Regex regex = new Regex(pattern);
-
-            return regex.IsMatch(email);
+            return Regex.IsMatch(email, pattern);
         }
 
-         static bool IsValidName(string name)
+        private static bool IsValidName(string name)
         {
-            if (string.IsNullOrEmpty(name))
-                return false;
-
-            if (!char.IsUpper(name[0]))
-                return false;
-
-            for (int i = 1; i < name.Length; i++)
-            {
-                if (!char.IsLetter(name[i]))
-                    return false;
-            }
-
-            return true;
+            return !string.IsNullOrEmpty(name) && char.IsUpper(name[0]) && name.Substring(1).All(char.IsLetter);
         }
+
 
 
 
         //Registration Form
-        public void NewRegistrationForm() 
+        public void NewRegistrationForm()
         {
             int attempts = MaxAttempts;
 
+            string userFirstName = GetValidInput("First Name", IsValidName);
 
-            string userFirstName = "";
-            do
-            {
-                Console.WriteLine("Please enter your First Name:");
-                userFirstName = Console.ReadLine();
-            } while (!IsValidName(userFirstName));
+            string userLastName = GetValidInput("Last Name", IsValidName);
 
-
-            string userLastName = "";
-            do
-            {
-                Console.WriteLine("Please enter your Last Name:");
-                userLastName = Console.ReadLine();
-            } while (!IsValidName(userLastName));
-
-            
-            string userEmail = "";
-
-            do
-            {
-                Console.WriteLine("Please enter your Email:");
-                userEmail = Console.ReadLine();
-            } while (!IsValidEmail(userEmail));
-
+            string userEmail = GetValidInput("Email", IsValidEmail);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Email is valid.");
 
+            string userPassword = GetValidPassword();
 
-            string userPassword = "";
+            string userCountryCode, userPhoneNumber;
+            bool isPhoneNumberValid = GetValidPhoneNumber(out userCountryCode, out userPhoneNumber);
+
+            if (isPhoneNumberValid)
+            {
+                Registration user = new Registration(
+                    firstName: userFirstName,
+                    lastName: userLastName,
+                    email: userEmail,
+                    password: userPassword,
+                    phoneNumber: userCountryCode + userPhoneNumber
+                );
+                user.SaveUserData();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("All attempts have been exhausted. Registration failed.");
+            }
+        }
+
+
+
+
+        private string GetValidInput(string fieldName, Func<string, bool> validator)
+        {
+            string userInput;
+            do
+            {
+                Console.WriteLine($"Please enter your {fieldName}");
+                userInput = Console.ReadLine();
+            } while (!validator(userInput));
+
+            return userInput;
+        }
+
+        private string GetValidPassword()
+        {
+            string userPassword;
             bool isPasswordValid = false;
 
-            while (!isPasswordValid)
+            do
             {
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Please enter your Password:");
+                Console.WriteLine("Please enter your Password | " +
+                                  "It must contain: number, capital letter, symbol and be at least 8 characters:");
                 userPassword = Console.ReadLine();
-
 
                 if (IsValidPassword(userPassword))
                 {
@@ -127,34 +119,43 @@ namespace Shop.Classes.forms
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid password. Please try again.");
                 }
-            }
+            } while (!isPasswordValid);
 
+            return userPassword;
+        }
+
+        private bool GetValidPhoneNumber(out string countryCode, out string phoneNumber)
+        {
+            int attempts = MaxAttempts;
 
             bool isPhoneNumberValid = false;
+            countryCode = string.Empty;
+            phoneNumber = string.Empty;
 
-            string userCountryCode = "";
-            string userPhoneNumber = "";
-
-            while (attempts > 0)
+            do
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Please enter your Country Code | For example '+380':");
-                userCountryCode = Console.ReadLine();
+                countryCode = Console.ReadLine();
 
-                Console.WriteLine("Please enter your Phone Number | For example '50 000 0000':");
+                Console.WriteLine("Please enter your Phone Number | For example '500000000':");
                 string userPhoneNumberNew = Console.ReadLine();
-
-                PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.GetInstance();
 
                 try
                 {
-                    PhoneNumber number = phoneNumberUtil.Parse(userCountryCode + userPhoneNumberNew, null);
-                    int countryCode = number.CountryCode;
+                    PhoneNumber number = phoneNumberUtil.Parse(countryCode + userPhoneNumberNew, null);
 
-                    userPhoneNumber = userPhoneNumberNew;
-                    Console.WriteLine("Country code: " + countryCode);
+                    if (number.NationalNumber.ToString().Length < 7)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Invalid phone number. It's too short. Please try again.");
+                        continue;
+                    }
+
+                    phoneNumber = userPhoneNumberNew;
+                    Console.WriteLine("Phone number: " + phoneNumber);
                     isPhoneNumberValid = true;
-                    break; // Если номер валиден, выходим из цикла.
+                    break;
                 }
                 catch (NumberParseException e)
                 {
@@ -162,31 +163,11 @@ namespace Shop.Classes.forms
                     Console.WriteLine("Error in parsing number: " + e.Message);
                     attempts--;
                     Console.WriteLine("You have " + attempts + " attempt(s) left.");
+                    isPhoneNumberValid = false;
                 }
+            } while (attempts > 0);
 
-
-            }
-
-
-
-
-            if (isPhoneNumberValid)
-            {
-                Registration user = new Registration(
-                    firstName: userFirstName,
-                    lastName: userLastName,
-                    email: userEmail, 
-                    password: userPassword,
-                    phoneNumber: userCountryCode + userPhoneNumber
-                    );
-                user.SaveUserData();
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("All attempts have been exhausted. Registration failed.");
-            }
-
+            return isPhoneNumberValid;
         }
     }
 }
