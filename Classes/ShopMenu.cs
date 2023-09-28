@@ -1,8 +1,12 @@
-﻿using Shop.Enums;
+﻿using PhoneNumbers;
+using Shop.Classes.account;
+using Shop.Classes.forms;
+using Shop.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Shop.Classes
@@ -27,6 +31,89 @@ namespace Shop.Classes
                 new Product() { Id = 5, Title = "Sugar", Count = 120, Price = 35, Weight=1000 }
             };
         }
+
+        // Код Search Product:
+        private List<Product> SearchProducts(string searchTerm)
+        {
+            return product.ProductList
+                .Where(p => p.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+
+        private async void ProductList(ShopMenu shopMenu)
+        {
+            try
+            {
+                if (shopMenu == null)
+                {
+                    Console.WriteLine("Error: Shop menu is null.");
+                    return;
+                }
+
+                string searchTerm;
+
+                while (true)
+                {
+                    Console.WriteLine("Enter a search term or type 'exit' to quit:");
+                    Console.WriteLine("Sw:");
+
+                    searchTerm = Console.ReadLine();
+
+                    if (string.IsNullOrEmpty(searchTerm))
+                    {
+                        Console.WriteLine("Error: Search term is empty.");
+                        continue;
+                    }
+
+                    if (searchTerm.ToLower() == "exit")
+                    {
+                        break;
+                    }
+
+                    List<Product> filteredProducts = shopMenu.SearchProducts(searchTerm.ToLower());
+
+                    if (filteredProducts.Count > 0)
+                    {
+                        filteredProducts = filteredProducts.OrderBy(p => p.Price).ThenBy(p => p.Id).ToList();
+                        shopMenu.ShowFilteredProducts(filteredProducts);
+                        product.ShowProductsList();
+                    }
+                    else
+                    {
+                        Console.WriteLine("No products found.");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
+        private void ShowFilteredProducts(List<Product> filteredProducts)
+        {
+            Console.WriteLine("\nFiltered Products:\n");
+
+            foreach (var product in filteredProducts)
+            {
+                if (product.Count > 0 && product.Price > 0)
+                {
+                    Console.WriteLine($"Id: {product.Id}, Title: {product.Title}, Count: {product.Count}, PricePerKg: {product.Price}");
+                }
+                else
+                {
+                    Console.WriteLine($"Id: {product.Id}, Title: {product.Title}, Price: {product.Price}");
+                }
+
+            }
+
+            Console.WriteLine("Full list of products\n\n");
+
+            Console.WriteLine("Available other products:");
+        }
+        // Кiнець Search Product
+
         private void MainMenu()
         {
             InitProductList();
@@ -36,7 +123,10 @@ namespace Shop.Classes
             Console.WriteLine("Main menu:\n\n" +
                 "Press 0 - EXIT\n" +
                 "Press 1 - Seller Mode\n" +
-                "Press 2 - Buyer Mode\n");
+                "Press 2 - Buyer Mode\n" +
+                "Press 3 - Rigst your account\n" +
+                "Press 4 - To Loggin into your account\n" +
+                "Press 5 - To Search the product\n");
             Console.ResetColor();
             Console.Write("Select menu item:");
             bool isCorrectMode = Enum.TryParse(Console.ReadLine(), out AppMode modeType);
@@ -60,6 +150,22 @@ namespace Shop.Classes
                     case AppMode.Buyer:
                         Console.Clear();
                         BuyerMenu();
+                        break;
+                    case AppMode.Registration:
+                        RegistrationForm registrationForm = new RegistrationForm();
+                        registrationForm.NewRegistrationForm();
+                        break;
+                    case AppMode.Loggin:
+                        LoginForm userLoggin = new LoginForm();
+                        userLoggin.TryLogin();
+                        break;
+
+                    case AppMode.SearchProduct:
+                        ProductList(this);
+                        break;
+
+                    default:
+                        Console.WriteLine("Please enter your choose");
                         break;
                 }
             }
