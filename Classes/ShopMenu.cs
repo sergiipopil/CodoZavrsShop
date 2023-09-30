@@ -13,9 +13,18 @@ namespace Shop.Classes
 {
     public class ShopMenu
     {
-        public Product product = new Product();
+        public ProductManager product = new ProductManager();
         public Shop shop = new Shop();
         public ShopManager shopManager = new ShopManager();
+
+        public ShopRegData shopRegInfo = new()
+        {
+            DateCreadeted = new DateTime(2023, 5, 1),
+            OwnerName = "Codo",
+            OwnerSurName = "Zavrs",
+            RegNumber = "UA7777777777"
+        };
+
         public ShopMenu()
         {
             MainMenu();
@@ -24,7 +33,7 @@ namespace Shop.Classes
         {
             product.ProductList = new List<Product>()
             {
-                new Product() { Id = 1, Title = "Сhocolate", Count = 25, Price = 65.3m, Weight=300},
+                new Product() { Id = 1, Title = "Сhocolate", Count = 25, Price = 65.3m},
                 new Product() { Id = 2, Title = "Milk", Count = 30, Price = 52.5m, Weight=1000 },
                 new Product() { Id = 3, Title = "Coffee", Count = 45, Price = 247.8m, Weight=900 },
                 new Product() { Id = 4, Title = "Tea", Count = 20, Price = 195, Weight=500 },
@@ -119,6 +128,7 @@ namespace Shop.Classes
             InitProductList();
             Console.Clear();
             Console.WriteLine($"You are welcome to {shop.Name}\n");
+            Console.WriteLine(shopRegInfo.ToString());
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Main menu:\n\n" +
                 "Press 0 - EXIT\n" +
