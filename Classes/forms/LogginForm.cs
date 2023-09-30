@@ -1,5 +1,5 @@
 ﻿using Shop.Classes.account;
-using Shop.Extensions;
+using Shop.Classes.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +39,7 @@ namespace Shop.Classes.forms
 
                 if (Loggin.TryLogin(userInfo.FirstName, userInfo.Password))
                 {
-                    var fullNameConst = firstName + " Your password is: " + password;
+                    var fullNameConst = firstName + " Your password was right: " + password;
                     string fullNameResult = fullNameConst.GetUserName();
 
                     Console.WriteLine($"Login successful. Hello {fullNameResult}");
