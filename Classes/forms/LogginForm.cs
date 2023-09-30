@@ -1,4 +1,5 @@
 ﻿using Shop.Classes.account;
+using Shop.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Shop.Classes.forms
     //  В этом классе я передаю данные в Loggin.cs где они будут сравниватся
     //  с данными в json файле
     //  ->
+    public record UserInfo(string FirstName, string Password);
 
     internal class LoginForm
     {
@@ -33,9 +35,14 @@ namespace Shop.Classes.forms
                 Console.WriteLine("Enter your password:");
                 string password = Console.ReadLine();
 
-                if (Loggin.TryLogin(firstName, password))
+                var userInfo = new UserInfo(firstName, password);
+
+                if (Loggin.TryLogin(userInfo.FirstName, userInfo.Password))
                 {
-                    Console.WriteLine($"Login successful. Hello {firstName}");
+                    var fullNameConst = firstName + " Your password is: " + password;
+                    string fullNameResult = fullNameConst.GetUserName();
+
+                    Console.WriteLine($"Login successful. Hello {fullNameResult}");
                     return true;
                 }
                 else
