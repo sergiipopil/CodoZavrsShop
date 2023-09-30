@@ -9,6 +9,7 @@
         GetAllItems = 4,
         ItemDetailsById = 5,
         ItemDetailsByTitle = 6,
-        GetAllItemsInBasket = 7
+        GetAllItemsInBasket = 7,
+        GetAllItemsInBaskeByTitle = 8
     }
 }

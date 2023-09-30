@@ -21,11 +21,12 @@ namespace Shop.Classes
             }
         }
         public const int storeCard = 123456789;
-        public readonly string Name;
+        public readonly string FirstName;
+        public string LastName { get; set; }
         public required int NumberPhone { get; set; }
         public Customer(string name)
         {
-            Name = name;
+            FirstName = name;
         }
     }
 }

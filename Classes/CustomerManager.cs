@@ -10,6 +10,7 @@ namespace Shop.Classes
     {
         Basket basket = new Basket();
 
+        
         public void GetStoreCard(int storeCard)
         {
             Console.WriteLine($"Your store card - {storeCard}!");
@@ -73,6 +74,7 @@ namespace Shop.Classes
 
             }
         }
+        
 
         public void GetBasketItems()
         {
@@ -91,6 +93,27 @@ namespace Shop.Classes
 
         }
 
+        public void GetBasketItems(string title)
+        {
+            var productsInBasket = basket.BasketItems.Where(x => x.Title.ToLower() == title.ToLower()).ToList();
+
+            Console.WriteLine("Products in basket\n");
+
+            if (productsInBasket.Count > 0)
+            {
+                foreach (var product in productsInBasket)
+                {
+                    Console.WriteLine($"ID:{product.Id}\tTitle:{product.Title}\tCount:{product.Count}\tPrice:{product.Price}\t" +
+                    $"Weight(grams):{product.Weight}\tExpiration:{product.Expiration:d}\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Basket doesn't have this product!");
+            }
+        }
+
+
         public void DeleteProductFromBasket(ProductManager product)
         {
             int attempts = 0;
@@ -106,14 +129,23 @@ namespace Shop.Classes
                 if (isCorrectProductId)
                 {
                     Product deleteProductFromBasket = basket.BasketItems.FirstOrDefault(p => p.Id == productId);
+
+                    Console.Write("Enter count: ");
+                    bool isCorrectCount = int.TryParse(Console.ReadLine(), out int productCount);
+                    isCorrectCount = deleteProductFromBasket.Count >= productCount;
+
                     Product productStore = product.ProductList.FirstOrDefault(p => p.Id == productId);
 
-                    if (deleteProductFromBasket != null)
+                    if (deleteProductFromBasket != null && isCorrectCount)
                     {
-                        --deleteProductFromBasket.Count;
+                        deleteProductFromBasket.Count -= productCount;
                         if (deleteProductFromBasket.Count == 0)
                             basket.BasketItems.Remove(deleteProductFromBasket);
-                        productStore.Count++;
+                        productStore.Count+= productCount;
+                    }if (!isCorrectCount)
+                    {
+                        Console.WriteLine("Error! Incorrect product count.");
+                        break;
                     }
                     GetBasketItems();
                     return;
