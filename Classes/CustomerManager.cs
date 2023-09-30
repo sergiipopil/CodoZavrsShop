@@ -4,9 +4,124 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shop
+namespace Shop.Classes
 {
     internal class CustomerManager
     {
+        Basket basket = new Basket();
+
+        public void GetStoreCard(int storeCard)
+        {
+            Console.WriteLine($"Your store card - {storeCard}!");
+        }
+
+        public void PutDownInBasket(Product product, int productCount)
+        {
+
+            Product existingProductInBasket = basket.BasketItems.FirstOrDefault(p => p.Id == product.Id);
+            if (existingProductInBasket != null)
+            {
+                existingProductInBasket.Count = existingProductInBasket.Count + productCount;
+            }
+            else
+            {
+                Product copyProduct = new Product
+                {
+                    Id = product.Id,
+                    Title = product.Title,
+                    Count = productCount,
+                    Price = product.Price,
+                    Weight = product.Weight
+                };
+                basket.BasketItems.Add(copyProduct);
+                product.Count -= productCount;
+            }
+        }
+
+        public void BuyProduct(ProductManager product)
+        {
+            int attempts = 0;
+            int maxAttempts = 3;
+
+            product.ShowProductsList();
+
+            while (attempts < maxAttempts)
+            {
+                Console.Write("Enter Id of product which you want to buy: ");
+                bool isCorrectProductId = int.TryParse(Console.ReadLine(), out int productId);
+                isCorrectProductId = product.ProductList.FirstOrDefault(x => x.Id == productId) != null;
+
+                if (isCorrectProductId)
+                {
+                    Product selectedProduct = product.GetProduct(productId);
+                    Console.Write("Enter count: ");
+                    bool isCorrectCount = int.TryParse(Console.ReadLine(), out int productCount);
+                    isCorrectCount = selectedProduct.Count >= productCount;
+
+                    if (isCorrectCount)
+                        PutDownInBasket(selectedProduct, productCount);
+                    else
+                    {
+                        Console.WriteLine("There is not enough product in the store");
+                        break;
+                    }
+                    GetBasketItems();
+                    return;
+                }
+                ++attempts;
+                Console.WriteLine($"Error! Attempt {attempts} of {maxAttempts}.");
+
+            }
+        }
+
+        public void GetBasketItems()
+        {
+            Console.WriteLine();
+            if (basket.BasketItems != null && basket.BasketItems.Count > 0)
+            {
+                Console.WriteLine("Products in basket\n");
+                foreach (var product in basket.BasketItems)
+                {
+                    Console.WriteLine($"ID:{product.Id}\tTitle:{product.Title}\tCount:{product.Count}\tPrice:{product.Price}\t" +
+                    $"Weight(grams):{product.Weight}\tExpiration:{product.Expiration:d}\n");
+                }
+            }
+            else { Console.WriteLine("Basket is empty!"); }
+
+
+        }
+
+        public void DeleteProductFromBasket(ProductManager product)
+        {
+            int attempts = 0;
+            int maxAttempts = 3;
+            if (!basket.BasketItems.Any())
+                return;
+
+            while (attempts < maxAttempts)
+            {
+                Console.Write("Enter product`s id if you want to delete from basket: \n");
+                bool isCorrectProductId = int.TryParse(Console.ReadLine(), out int productId);
+                isCorrectProductId = basket.BasketItems.FirstOrDefault(x => x.Id == productId) != null;
+                if (isCorrectProductId)
+                {
+                    Product deleteProductFromBasket = basket.BasketItems.FirstOrDefault(p => p.Id == productId);
+                    Product productStore = product.ProductList.FirstOrDefault(p => p.Id == productId);
+
+                    if (deleteProductFromBasket != null)
+                    {
+                        --deleteProductFromBasket.Count;
+                        if (deleteProductFromBasket.Count == 0)
+                            basket.BasketItems.Remove(deleteProductFromBasket);
+                        productStore.Count++;
+                    }
+                    GetBasketItems();
+                    return;
+                }
+                ++attempts;
+                Console.WriteLine($"Error! Attempt {attempts} of {maxAttempts}.");
+
+            }
+        }
     }
 }

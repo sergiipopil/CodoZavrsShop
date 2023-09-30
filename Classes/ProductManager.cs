@@ -56,6 +56,10 @@ namespace Shop.Classes
             product.Id = ++id;
             ProductList.Add(product);
         }
+        public Product? GetProduct(int productId)
+        {
+            return ProductList.FirstOrDefault(x => x.Id == productId);
+        }
         public void DeleteProduct(int productId)
         {
             if (ProductList != null && ProductList.Count > 0)

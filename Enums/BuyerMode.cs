@@ -3,10 +3,12 @@
     enum BuyerMode
     {
         MainMenu = 0,
-        BuyItem = 1,
-        ReturnItem = 2,
-        GetAllItems = 3,
-        ItemDetailsById = 4,
-        ItemDetailsByTitle = 5
+        GetStoreCard = 1,
+        BuyItem = 2,
+        ReturnItem = 3,
+        GetAllItems = 4,
+        ItemDetailsById = 5,
+        ItemDetailsByTitle = 6,
+        GetAllItemsInBasket = 7
     }
 }
