@@ -24,7 +24,7 @@ namespace Shop.Classes
             OwnerSurName = "Zavrs",
             RegNumber = "UA7777777777"
         };
-
+        private CustomerManager customer = new();
         public ShopMenu()
         {
             MainMenu();
@@ -255,11 +255,14 @@ namespace Shop.Classes
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Buyer menu:\n\n" +
                 "Press 0 - Return to Main Menu\n" +
-                "Press 1 - Buy item\n" +
-                "Press 2 - Return item\n" +
-                "Press 3 - Get all items\n" +
-                "Press 4 - Get item detais by Id\n" +
-                "Press 5 - Get item detais by Title\n");
+                 "Press 1 - Get Store Card\n" +
+                "Press 2 - Buy item\n" +
+                "Press 3 - Return item\n" +
+                "Press 4 - Get all items\n" +
+                "Press 5 - Get item detais by Id\n" +
+                "Press 6 - Get item detais by Title\n" +
+                "Press 7 - Get info all items in basket\n" +
+                "Press 8 - Get info item in basket by title\n" );
             Console.ResetColor();
             Console.Write("Select menu item:");
             bool isCorrectMode = Enum.TryParse(Console.ReadLine(), out BuyerMode buyerModeType);
@@ -276,12 +279,16 @@ namespace Shop.Classes
                     case BuyerMode.MainMenu:
                         MainMenu();
                         break;
+                    case BuyerMode.GetStoreCard:
+                        customer.GetStoreCard(Customer.storeCard);
+                        break;
                     case BuyerMode.BuyItem:
-                        //todo
+                        customer.BuyProduct(product);
                         break;
                     case BuyerMode.ReturnItem:
-                        //todo
-                        Console.WriteLine("Return item");
+                        Console.WriteLine("All products in basket: ");
+                        customer.GetBasketItems();
+                        customer.DeleteProductFromBasket(product);
                         break;
                     case BuyerMode.ItemDetailsById:
                         Console.Write("Please enter Id of product which you want get details:");
@@ -298,6 +305,14 @@ namespace Shop.Classes
                         break;
                     case BuyerMode.GetAllItems:
                         product.ShowProductsList();
+                        break;
+                    case BuyerMode.GetAllItemsInBasket:
+                        customer.GetBasketItems();
+                        break;
+                    case BuyerMode.GetAllItemsInBaskeByTitle:
+                        Console.Write("Please enter Title of product which you want see info:");
+                        string itemTitle = Console.ReadLine();
+                        customer.GetBasketItems(itemTitle);
                         break;
                 }
                 BuyerMenu();
