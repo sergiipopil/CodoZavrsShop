@@ -8,14 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using TaskShop.Classes;
 
 namespace Shop.Classes
 {
     public class ShopMenu
     {
-        public ProductManager product = new ProductManager();
+        public static ProductManager product = new ProductManager();
         public Shop shop = new Shop();
         public ShopManager shopManager = new ShopManager();
+
+        public static Seller seller = new Seller("Tom")
+        { Age = 34 };
+        public SellerManager sellerManager = new SellerManager(seller, product);
+
+
+
 
         public ShopRegData shopRegInfo = new()
         {
@@ -27,7 +35,7 @@ namespace Shop.Classes
         private CustomerManager customer = new();
         public ShopMenu()
         {
-            MainMenu();
+            MainMenu(); 
         }
         private void InitProductList()
         {
@@ -182,23 +190,17 @@ namespace Shop.Classes
         }
         private void SellerMenu()
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("It`s seller mode");
             Console.WriteLine("Seller menu:\n\n" +
                 "Press 0 - Return to Main Menu\n" +
-                "Press 1 - Sold item\n" +
-                "Press 2 - Add item\n" +
-                "Press 3 - Delete item\n" +
-                "Press 4 - Get all items\n" +
-                "Press 5 - Get item details by Id\n" +
-                "Press 6 - Get item details by Title\n" +
-                "Press 7 - Delete expiration products\n"+
-                "Press 8 - Open shop\n" +
-                "Press 9 - Close shop\n");
-            Console.ResetColor();
+                "Press 1 - sold item\n" +
+                "Press 2 - Open the shop\n" +
+                "Press 3 - Close the shop\n");
+
             Console.Write("Select menu item:");
             bool isCorrectMode = Enum.TryParse(Console.ReadLine(), out SellerMode sellerModeType);
 
-            if (!isCorrectMode && !Enum.IsDefined(typeof(SellerMode), sellerModeType))
+            if (!isCorrectMode || !Enum.IsDefined(typeof(SellerMode), sellerModeType))
             {
                 Console.Clear();
                 SellerMenu();
@@ -210,44 +212,35 @@ namespace Shop.Classes
                     case SellerMode.MainMenu:
                         MainMenu();
                         break;
-                    case SellerMode.AddItem:
-                        //todo
-                        Console.WriteLine("Add item");
-                        break;
-                    case SellerMode.DeleteItem:
-                        //todo
-                        Console.WriteLine("Delete item");
-                        break;
+
                     case SellerMode.SoldItem:
-                        //todo
                         Console.WriteLine("Sold item");
-                        break;
-                    case SellerMode.GetAllItems:
-                        product.ShowProductsList();
-                        break;
-                    case SellerMode.ItemDetailsById:
-                        Console.Write("Please enter Id of product which you want get details:");
-                        bool isCorrectId = int.TryParse(Console.ReadLine(), out int productId);
-                        if (isCorrectId)
+                        Console.WriteLine("Enter the product name, please: ");
+                        var productName = Console.ReadLine();
+
+                        Console.WriteLine("Enter the count of the product, please: ");
+                        var enteredProductCount = Console.ReadLine();
+                        if (int.TryParse(enteredProductCount, out var productCount))
                         {
-                            product.GetProductDetail(productId);
+                            sellerManager.SoldProduct(productName, productCount);
                         }
-                        break;
-                    case SellerMode.ItemDetailsByTitle:
-                        Console.Write("Please enter Title of product which you want get details:");
-                        string title = Console.ReadLine();
-                        product.GetProductDetail(title);
+                        else
+                        {
+                            Console.WriteLine("Incorrect the count of the product is entered!");
+                        }
+
+                        SellerMenu();
                         break;
                     case SellerMode.OpenShop:
-                        Console.WriteLine("Please enter the opening time of the shop (for example 8:00):");
-                        string openTime = Console.ReadLine();
-                        shopManager.Open(openTime);
+                        shopManager.Open();
+                        Console.WriteLine("Open store!Press ENTER to continue!");
+                        Console.ReadLine();
+                        MainMenu();
                         break;
                     case SellerMode.CloseShop:
-                        shopManager.Close();
+                        shopManager.Close();      
                         break;
                 }
-                SellerMenu();
             }
         }
         private void BuyerMenu()
