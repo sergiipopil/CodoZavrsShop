@@ -188,7 +188,7 @@ namespace Shop.Classes
                 }
             }
         }
-        public void SellerMenu()
+        private void SellerMenu()
         {
             Console.WriteLine("It`s seller mode");
             Console.WriteLine("Seller menu:\n\n" +
