@@ -40,6 +40,9 @@ namespace Shop.Classes
 
         private CustomerManager customer = new();
 
+        private Customer customer1 = new Customer("Ivan", "Ivanchenko", 3806661177, 5000);
+        private CustomerRecord customerRecord = new(new DateTime(2002, 12, 01), 5);
+
         public ShopMenu()
         {
             MainMenu(); 
@@ -256,15 +259,17 @@ namespace Shop.Classes
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Buyer menu:\n\n" +
                 "Press 0 - Return to Main Menu\n" +
-                "Press 1 - Get Store Card\n" +
-                "Press 2 - Buy item\n" +
-                "Press 3 - Return item\n" +
-                "Press 4 - Get all items\n" +
-                "Press 5 - Get item detais by Id\n" +
-                "Press 6 - Get item detais by Title\n" +
-                "Press 7 - Get info all items in basket\n" +
-                "Press 8 - Get info item in basket by title\n"+
-                "Press 9 - Get Shop Status\n");
+                "Press 1 - Get customer information\n" +
+                "Press 2 - Get Store Card\n" +
+                "Press 3 - Buy item\n" +
+                "Press 4 - Return item\n" +
+                "Press 5 - Get all items\n" +
+                "Press 6 - Get item detais by Id\n" +
+                "Press 7 - Get item detais by Title\n" +
+                "Press 8 - Get info all items in basket\n" +
+                "Press 9 - Get info item in basket by title\n" +
+                "Press 10 - Get Shop Status\n");
+
             Console.ResetColor();
             Console.Write("Select menu item:");
             bool isCorrectMode = Enum.TryParse(Console.ReadLine(), out BuyerMode buyerModeType);
@@ -280,6 +285,9 @@ namespace Shop.Classes
                 {
                     case BuyerMode.MainMenu:
                         MainMenu();
+                        break;
+                    case BuyerMode.GetCustomerInf:
+                        customer1.GetInformationCustomer(customerRecord);
                         break;
                     case BuyerMode.GetStoreCard:
                         customer.GetStoreCard(Customer.storeCard);

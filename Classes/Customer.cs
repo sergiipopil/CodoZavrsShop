@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,10 +24,15 @@ namespace Shop.Classes
         public const int storeCard = 123456789;
         public readonly string FirstName;
         public string LastName { get; set; }
-        public required int NumberPhone { get; set; }
-        public Customer(string name)
+        public required long NumberPhone { get; set; }
+
+        [SetsRequiredMembers]
+        public Customer(string firstName, string lastName, long numberPhone, decimal cash)
         {
-            FirstName = name;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.NumberPhone = numberPhone;
+            this.Cash = cash;
         }
     }
 }
