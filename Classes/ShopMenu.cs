@@ -1,5 +1,6 @@
 ﻿using PhoneNumbers;
 using Shop.Classes.account;
+using Shop.Classes.Extensions;
 using Shop.Classes.forms;
 using Shop.Enums;
 using System;
@@ -22,9 +23,6 @@ namespace Shop.Classes
         { Age = 34 };
         public SellerManager sellerManager = new SellerManager(seller, product);
 
-
-
-
         public ShopRegData shopRegInfo = new()
         {
             DateCreadeted = new DateTime(2023, 5, 1),
@@ -32,9 +30,21 @@ namespace Shop.Classes
             OwnerSurName = "Zavrs",
             RegNumber = "UA7777777777"
         };
+
+        public ShopHelperData shopHelperData = new ShopHelperData()
+        {
+            Phone = "+777777",
+            WebSite = "https://sim23.ua/",
+            Email = "codozavrsShop@gmail.com"
+        };
+
         private CustomerManager customer = new();
+<<<<<<< HEAD
         private Customer customer1 = new Customer("Ivan", "Ivanchenko", 3806661177, 5000);
         private CustomerRecord customerRecord = new(new DateTime(2002, 12, 01), 5);
+=======
+
+>>>>>>> 246b3bae814d4bdb36d0c9840e30a4c1ec943670
         public ShopMenu()
         {
             MainMenu(); 
@@ -139,6 +149,7 @@ namespace Shop.Classes
             Console.Clear();
             Console.WriteLine($"You are welcome to {shop.Name}\n");
             Console.WriteLine(shopRegInfo.ToString());
+            Console.WriteLine($"If you want to contact us:phone - {shopHelperData.Phone}, email - {shopHelperData.Email}, website - {shopHelperData.WebSite}");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Main menu:\n\n" +
                 "Press 0 - EXIT\n" +
@@ -234,13 +245,13 @@ namespace Shop.Classes
                         SellerMenu();
                         break;
                     case SellerMode.OpenShop:
-                        shopManager.Open();
+                        shopManager.Open(shop);
                         Console.WriteLine("Open store!Press ENTER to continue!");
                         Console.ReadLine();
                         MainMenu();
                         break;
                     case SellerMode.CloseShop:
-                        shopManager.Close();      
+                        shopManager.Close(shop);      
                         break;
                 }
             }
@@ -250,6 +261,7 @@ namespace Shop.Classes
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Buyer menu:\n\n" +
                 "Press 0 - Return to Main Menu\n" +
+<<<<<<< HEAD
                 "Press 1 - Get customer information\n" +
                 "Press 2 - Get Store Card\n" +
                 "Press 3 - Buy item\n" +
@@ -259,6 +271,17 @@ namespace Shop.Classes
                 "Press 7 - Get item detais by Title\n" +
                 "Press 8 - Get info all items in basket\n" +
                 "Press 9 - Get info item in basket by title\n");
+=======
+                "Press 1 - Get Store Card\n" +
+                "Press 2 - Buy item\n" +
+                "Press 3 - Return item\n" +
+                "Press 4 - Get all items\n" +
+                "Press 5 - Get item detais by Id\n" +
+                "Press 6 - Get item detais by Title\n" +
+                "Press 7 - Get info all items in basket\n" +
+                "Press 8 - Get info item in basket by title\n"+
+                "Press 9 - Get Shop Status\n");
+>>>>>>> 246b3bae814d4bdb36d0c9840e30a4c1ec943670
             Console.ResetColor();
             Console.Write("Select menu item:");
             bool isCorrectMode = Enum.TryParse(Console.ReadLine(), out BuyerMode buyerModeType);
@@ -312,6 +335,9 @@ namespace Shop.Classes
                         Console.Write("Please enter Title of product which you want see info:");
                         string itemTitle = Console.ReadLine();
                         customer.GetBasketItems(itemTitle);
+                        break;
+                    case BuyerMode.GetShopStatus:
+                        Console.WriteLine(OpenExtensions.GetStatusMessage(shop));
                         break;
                 }
                 BuyerMenu();

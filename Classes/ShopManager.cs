@@ -8,21 +8,19 @@ namespace Shop.Classes
 {
     public class ShopManager
     {
-        public Shop shop = new Shop();
-
-        public void Open()
+        public void Open(Shop shop)
         {
             shop.IsOpened = true;
         }
 
-        public void Open(string openTime)
+        public void Open(Shop shop, string openTime)
         {
             shop.IsOpened = true;
             Console.WriteLine($"Store {shop.Name} is opened at the address {Shop.Location}, " +
                 $"StoreId:{shop.ShopID}, Shop opened at: {openTime}");
         }
 
-        public void Close()
+        public void Close(Shop shop)
         {
             shop.IsOpened = false;
             Console.WriteLine($"Store {shop.Name} is closed at the address {Shop.Location}, StoreId:{shop.ShopID}");
