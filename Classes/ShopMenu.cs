@@ -39,12 +39,10 @@ namespace Shop.Classes
         };
 
         private CustomerManager customer = new();
-<<<<<<< HEAD
+
         private Customer customer1 = new Customer("Ivan", "Ivanchenko", 3806661177, 5000);
         private CustomerRecord customerRecord = new(new DateTime(2002, 12, 01), 5);
-=======
 
->>>>>>> 246b3bae814d4bdb36d0c9840e30a4c1ec943670
         public ShopMenu()
         {
             MainMenu(); 
@@ -261,7 +259,6 @@ namespace Shop.Classes
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Buyer menu:\n\n" +
                 "Press 0 - Return to Main Menu\n" +
-<<<<<<< HEAD
                 "Press 1 - Get customer information\n" +
                 "Press 2 - Get Store Card\n" +
                 "Press 3 - Buy item\n" +
@@ -270,18 +267,9 @@ namespace Shop.Classes
                 "Press 6 - Get item detais by Id\n" +
                 "Press 7 - Get item detais by Title\n" +
                 "Press 8 - Get info all items in basket\n" +
-                "Press 9 - Get info item in basket by title\n");
-=======
-                "Press 1 - Get Store Card\n" +
-                "Press 2 - Buy item\n" +
-                "Press 3 - Return item\n" +
-                "Press 4 - Get all items\n" +
-                "Press 5 - Get item detais by Id\n" +
-                "Press 6 - Get item detais by Title\n" +
-                "Press 7 - Get info all items in basket\n" +
-                "Press 8 - Get info item in basket by title\n"+
-                "Press 9 - Get Shop Status\n");
->>>>>>> 246b3bae814d4bdb36d0c9840e30a4c1ec943670
+                "Press 9 - Get info item in basket by title\n" +
+                "Press 10 - Get Shop Status\n");
+
             Console.ResetColor();
             Console.Write("Select menu item:");
             bool isCorrectMode = Enum.TryParse(Console.ReadLine(), out BuyerMode buyerModeType);
