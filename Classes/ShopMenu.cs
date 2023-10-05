@@ -8,8 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using TaskShop.Classes;
+using Shop.Core.Classes;
 
 namespace Shop.Classes
 {
@@ -145,6 +147,7 @@ namespace Shop.Classes
         {
             InitProductList();
             Console.Clear();
+
             Console.WriteLine($"You are welcome to {shop.Name}\n");
             Console.WriteLine(shopRegInfo.ToString());
             Console.WriteLine($"If you want to contact us:phone - {shopHelperData.Phone}, email - {shopHelperData.Email}, website - {shopHelperData.WebSite}");
@@ -155,7 +158,8 @@ namespace Shop.Classes
                 "Press 2 - Buyer Mode\n" +
                 "Press 3 - Rigst your account\n" +
                 "Press 4 - To Loggin into your account\n" +
-                "Press 5 - To Search the product\n");
+                "Press 5 - To Search the product\n" +
+                "Press 6 - Popil-abstract\n");
             Console.ResetColor();
             Console.Write("Select menu item:");
             bool isCorrectMode = Enum.TryParse(Console.ReadLine(), out AppMode modeType);
@@ -192,7 +196,9 @@ namespace Shop.Classes
                     case AppMode.SearchProduct:
                         ProductList(this);
                         break;
-
+                    case AppMode.Popil_Abstract:
+                        PopilSergii_Abstract();
+                        break;
                     default:
                         Console.WriteLine("Please enter your choose");
                         break;
@@ -330,6 +336,24 @@ namespace Shop.Classes
                 }
                 BuyerMenu();
             }
+        }
+
+        private void PopilSergii_Abstract()
+        {
+            Console.WriteLine("===DEMONSTRATION HOMETASK6 (ABSTRACT)====\n");
+            Product simpleProduct = product.GetProduct(1);
+            ProductBase productBase = simpleProduct;
+
+            Console.WriteLine($"SimpleProduct - Price:{simpleProduct.GetPrice()}");
+            Console.WriteLine($"SimpleProduct - Count:{simpleProduct.GetCount()}");
+
+            Console.WriteLine($"ProductBase - Price:{productBase.GetPrice()}");
+            Console.WriteLine($"ProductBase - Count:{productBase.GetCount()}\n");
+
+            ProductManagerBase<ProductBase> productManagerBase = new ProductManagerBase<ProductBase>();
+
+            productManagerBase.ChangeProductPrice(simpleProduct, 777);
+            productManagerBase.ShowFullProductInfo(simpleProduct);
         }
     }
 }
