@@ -10,9 +10,10 @@
         GetAllItems = 5,
         ItemDetailsById = 6,
         ItemDetailsByTitle = 7,
-        GetAllItemsInBasket = 8,
-        GetAllItemsInBaskeByTitle = 9,
-        GetShopStatus = 10
+        ItemMainDataById=8,
+        GetAllItemsInBasket = 9,
+        GetAllItemsInBaskeByTitle = 10,
+        GetShopStatus = 11
 
     }
 }
