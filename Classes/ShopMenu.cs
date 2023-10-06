@@ -364,7 +364,7 @@ namespace Shop.Classes
                         product.ShowProductsList();
                         Console.Write("Please enter Id of product which you want get details:");
                         isCorrectId = int.TryParse(Console.ReadLine(), out productId);
-                        if (isCorrectId)
+                        if (isCorrectId && product.ProductList.Any(x=>x.Id==productId))
                         {
                             product.ShowMainProductInfo(product.GetProduct(productId));
                         }
