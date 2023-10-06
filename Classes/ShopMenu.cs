@@ -8,8 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using TaskShop.Classes;
+using Shop.Core.Classes;
 
 namespace Shop.Classes
 {
@@ -45,13 +47,14 @@ namespace Shop.Classes
 
         public ShopMenu()
         {
-            MainMenu(); 
+            InitProductList();
+            MainMenu();
         }
         private void InitProductList()
         {
             product.ProductList = new List<Product>()
             {
-                new Product() { Id = 1, Title = "Сhocolate", Count = 25, Price = 65.3m},
+                new Product() { Id = 1, Title = "Сhocolate", Count = 25, Price = 65.3m, Weight = 1000},
                 new Product() { Id = 2, Title = "Milk", Count = 30, Price = 52.5m, Weight=1000 },
                 new Product() { Id = 3, Title = "Coffee", Count = 45, Price = 247.8m, Weight=900 },
                 new Product() { Id = 4, Title = "Tea", Count = 20, Price = 195, Weight=500 },
@@ -143,8 +146,8 @@ namespace Shop.Classes
 
         private void MainMenu()
         {
-            InitProductList();
             Console.Clear();
+
             Console.WriteLine($"You are welcome to {shop.Name}\n");
             Console.WriteLine(shopRegInfo.ToString());
             Console.WriteLine($"If you want to contact us:phone - {shopHelperData.Phone}, email - {shopHelperData.Email}, website - {shopHelperData.WebSite}");
@@ -155,7 +158,8 @@ namespace Shop.Classes
                 "Press 2 - Buyer Mode\n" +
                 "Press 3 - Rigst your account\n" +
                 "Press 4 - To Loggin into your account\n" +
-                "Press 5 - To Search the product\n");
+                "Press 5 - To Search the product\n" +
+                "Press 6 - Popil-abstract\n");
             Console.ResetColor();
             Console.Write("Select menu item:");
             bool isCorrectMode = Enum.TryParse(Console.ReadLine(), out AppMode modeType);
@@ -192,7 +196,9 @@ namespace Shop.Classes
                     case AppMode.SearchProduct:
                         ProductList(this);
                         break;
-
+                    case AppMode.Popil_Abstract:
+                        PopilSergii_Abstract();
+                        break;
                     default:
                         Console.WriteLine("Please enter your choose");
                         break;
@@ -204,9 +210,10 @@ namespace Shop.Classes
             Console.WriteLine("It`s seller mode");
             Console.WriteLine("Seller menu:\n\n" +
                 "Press 0 - Return to Main Menu\n" +
-                "Press 1 - sold item\n" +
-                "Press 2 - Open the shop\n" +
-                "Press 3 - Close the shop\n");
+                "Press 1 - Sold item\n" +
+                "Press 2 - Change price item\n" +
+                "Press 3 - Open the shop\n" +
+                "Press 4 - Close the shop\n");
 
             Console.Write("Select menu item:");
             bool isCorrectMode = Enum.TryParse(Console.ReadLine(), out SellerMode sellerModeType);
@@ -224,6 +231,41 @@ namespace Shop.Classes
                         MainMenu();
                         break;
 
+                    case SellerMode.ChangePrice:
+                        product.ShowProductsList();
+                        Console.Write("Please enter Id of product which you want change price:");
+                        bool isCorrectId = int.TryParse(Console.ReadLine(), out int productId);
+                        if (isCorrectId && product.ProductList.Any(x => x.Id == productId))
+                        {
+                            Product selectedProduct = product.GetProduct(productId);
+                            product.ShowMainProductInfo(selectedProduct);
+                            if (selectedProduct != null)
+                            {
+                                Console.Write("Please enter new Price(Format ##,##):");
+                                bool isCorrectPrice = decimal.TryParse(Console.ReadLine().Replace('.', ','), out decimal newProductPrice);
+                                if (isCorrectPrice && newProductPrice > 0)
+                                {
+                                    product.ChangeProductPrice(selectedProduct, newProductPrice);
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine("Success! Price is changed!");
+                                    product.ShowMainProductInfo(selectedProduct);
+                                    Console.ResetColor();
+                                }
+                                else
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine("!!! Uncorrect price !!!");
+                                    Console.ResetColor();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("!!! Uncorrect product Id !!!");
+                            Console.ResetColor();
+                        }
+                        break;
                     case SellerMode.SoldItem:
                         Console.WriteLine("Sold item");
                         Console.WriteLine("Enter the product name, please: ");
@@ -249,9 +291,10 @@ namespace Shop.Classes
                         MainMenu();
                         break;
                     case SellerMode.CloseShop:
-                        shopManager.Close(shop);      
+                        shopManager.Close(shop);
                         break;
                 }
+                SellerMenu();
             }
         }
         private void BuyerMenu()
@@ -266,9 +309,10 @@ namespace Shop.Classes
                 "Press 5 - Get all items\n" +
                 "Press 6 - Get item detais by Id\n" +
                 "Press 7 - Get item detais by Title\n" +
-                "Press 8 - Get info all items in basket\n" +
-                "Press 9 - Get info item in basket by title\n" +
-                "Press 10 - Get Shop Status\n");
+                "Press 8 - Get item main info by Id\n" +
+                "Press 9 - Get info all items in basket\n" +
+                "Press 10 - Get info item in basket by title\n" +
+                "Press 11 - Get Shop Status\n");
 
             Console.ResetColor();
             Console.Write("Select menu item:");
@@ -316,6 +360,15 @@ namespace Shop.Classes
                     case BuyerMode.GetAllItems:
                         product.ShowProductsList();
                         break;
+                    case BuyerMode.ItemMainDataById:
+                        product.ShowProductsList();
+                        Console.Write("Please enter Id of product which you want get details:");
+                        isCorrectId = int.TryParse(Console.ReadLine(), out productId);
+                        if (isCorrectId)
+                        {
+                            product.ShowMainProductInfo(product.GetProduct(productId));
+                        }
+                        break;
                     case BuyerMode.GetAllItemsInBasket:
                         customer.GetBasketItems();
                         break;
@@ -330,6 +383,20 @@ namespace Shop.Classes
                 }
                 BuyerMenu();
             }
+        }
+
+        private void PopilSergii_Abstract()
+        {
+            Console.WriteLine("===DEMONSTRATION HOMETASK6 (ABSTRACT)====\n");
+            Product simpleProduct = product.GetProduct(1);
+            ProductBase productBase = simpleProduct;
+            
+            Console.WriteLine($"SimpleProduct - Price:{simpleProduct.GetPrice()}");
+            Console.WriteLine($"SimpleProduct - Count:{simpleProduct.GetCount()}");
+
+            Console.WriteLine($"ProductBase - Price:{productBase.GetPrice()}");
+            Console.WriteLine($"ProductBase - Count:{productBase.GetCount()}\n");
+
         }
     }
 }

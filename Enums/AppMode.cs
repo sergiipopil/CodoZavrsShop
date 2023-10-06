@@ -7,6 +7,7 @@
         Buyer = 2,
         Registration = 3,
         Loggin = 4,
-        SearchProduct = 5
+        SearchProduct = 5,
+        Popil_Abstract = 6
     }
 }

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Shop.Classes.Extensions;
+using Shop.Core.Classes;
 
 namespace Shop.Classes
 {
-    public class ProductManager:IProductManager
+    public class ProductManager:ProductManagerBase<ProductBase>, IProductManager
     {
         public List<Product> ProductList { get; set; }
         public void ShowProductsList()
@@ -37,6 +38,7 @@ namespace Shop.Classes
                 Console.WriteLine($"We don`t have product with name {title}");
             }
         }
+
         public void GetProductDetail(int id)
         {
             var productDetail = ProductList.FirstOrDefault(x => x.Id == id);
@@ -50,6 +52,7 @@ namespace Shop.Classes
                 Console.WriteLine($"We don`t have product with id {id}");
             }
         }
+        
         public void AddNewProduct(Product product)
         {
             int id = ProductList.Max(x => x.Id);
