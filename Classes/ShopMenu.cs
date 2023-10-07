@@ -1,4 +1,6 @@
 ﻿using PhoneNumbers;
+using Shop.LoginNewTestMark.Forms;
+
 using Shop.Classes.account;
 using Shop.Classes.Extensions;
 using Shop.Classes.forms;
@@ -185,11 +187,11 @@ namespace Shop.Classes
                         BuyerMenu();
                         break;
                     case AppMode.Registration:
-                        RegistrationForm registrationForm = new RegistrationForm();
+                        LoginNewTestMark.Forms.RegistrationForm registrationForm = new LoginNewTestMark.Forms.RegistrationForm();
                         registrationForm.NewRegistrationForm();
                         break;
                     case AppMode.Loggin:
-                        LoginForm userLoggin = new LoginForm();
+                        LoginNewTestMark.Forms.LoginForm userLoggin = new LoginNewTestMark.Forms.LoginForm();
                         userLoggin.TryLogin();
                         break;
 
