@@ -21,8 +21,9 @@ namespace Shop.Classes
         public Shop shop = new Shop();
         public ShopManager shopManager = new ShopManager();
 
-        public static Seller seller = new Seller("Tom")
-        { Age = 34 };
+        public static Seller seller = new Seller("Tom") { Age = 34 };
+        Record_Seller RecordSeller1 = new Record_Seller(1, "Bob", new DateTime(2023, 12, 01));
+
         public SellerManager sellerManager = new SellerManager(seller, product);
 
         public ShopRegData shopRegInfo = new()
