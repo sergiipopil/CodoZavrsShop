@@ -1,1 +1,51 @@
-﻿
+﻿-----------------------------------------------------------
+
+09.10.2023 14:34:19
+Exception message:The input string '' was not in a correct format.
+StackTrace:   at System.Number.ThrowOverflowOrFormatException(ParsingStatus status, ReadOnlySpan`1 value, TypeCode type)
+   at System.Int32.Parse(String s)
+   at Shop.Classes.ShopMenu.SellerMenu() in C:\Users\User\source\repos\CodoZavrs_ShopFIXES\Classes\ShopMenu.cs:line 243
+
+-----------------------------------------------------------
+
+
+
+
+----------------------09.10.2023 14:35:56----------------------
+
+Exception message:The input string '' was not in a correct format.
+StackTrace:   at System.Number.ThrowOverflowOrFormatException(ParsingStatus status, ReadOnlySpan`1 value, TypeCode type)
+   at System.Int32.Parse(String s)
+   at Shop.Classes.ShopMenu.BuyerMenu() in C:\Users\User\source\repos\CodoZavrs_ShopFIXES\Classes\ShopMenu.cs:line 366
+
+-----------------------------------------------------------
+
+
+----------------------09.10.2023 14:35:56----------------------
+
+Exception message:The input string '' was not in a correct format.
+StackTrace:   at System.Number.ThrowOverflowOrFormatException(ParsingStatus status, ReadOnlySpan`1 value, TypeCode type)
+   at System.Int32.Parse(String s)
+   at Shop.Classes.ShopMenu.BuyerMenu() in C:\Users\User\source\repos\CodoZavrs_ShopFIXES\Classes\ShopMenu.cs:line 366
+
+-----------------------------------------------------------
+
+
+----------------------09.10.2023 14:38:18----------------------
+
+Exception message:The input string '' was not in a correct format.
+StackTrace:   at System.Number.ThrowOverflowOrFormatException(ParsingStatus status, ReadOnlySpan`1 value, TypeCode type)
+   at System.Int32.Parse(String s)
+   at Shop.Classes.ShopMenu.BuyerMenu() in C:\Users\User\source\repos\CodoZavrs_ShopFIXES\Classes\ShopMenu.cs:line 366
+
+-----------------------------------------------------------
+
+
+----------------------09.10.2023 14:38:27----------------------
+
+Exception message:The input string '' was not in a correct format.
+StackTrace:   at System.Number.ThrowOverflowOrFormatException(ParsingStatus status, ReadOnlySpan`1 value, TypeCode type)
+   at System.Int32.Parse(String s)
+   at Shop.Classes.ShopMenu.BuyerMenu() in C:\Users\User\source\repos\CodoZavrs_ShopFIXES\Classes\ShopMenu.cs:line 366
+
+-----------------------------------------------------------

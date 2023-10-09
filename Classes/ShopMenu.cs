@@ -14,6 +14,7 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using TaskShop.Classes;
 using Shop.Core.Classes;
+using Shop.Services;
 
 namespace Shop.Classes
 {
@@ -236,37 +237,47 @@ namespace Shop.Classes
 
                     case SellerMode.ChangePrice:
                         product.ShowProductsList();
-                        Console.Write("Please enter Id of product which you want change price:");
-                        bool isCorrectId = int.TryParse(Console.ReadLine(), out int productId);
-                        if (isCorrectId && product.ProductList.Any(x => x.Id == productId))
+                        try
                         {
-                            Product selectedProduct = product.GetProduct(productId);
-                            product.ShowMainProductInfo(selectedProduct);
-                            if (selectedProduct != null)
+                            Console.Write("Please enter Id of product which you want change price:");
+                            int productId = int.Parse(Console.ReadLine());
+                            if (product.ProductList.Any(x => x.Id == productId))
                             {
-                                Console.Write("Please enter new Price(Format ##,##):");
-                                bool isCorrectPrice = decimal.TryParse(Console.ReadLine().Replace('.', ','), out decimal newProductPrice);
-                                if (isCorrectPrice && newProductPrice > 0)
+                                Product selectedProduct = product.GetProduct(productId);
+                                product.ShowMainProductInfo(selectedProduct);
+                                if (selectedProduct != null)
                                 {
-                                    product.ChangeProductPrice(selectedProduct, newProductPrice);
-                                    Console.ForegroundColor = ConsoleColor.Red;
-                                    Console.WriteLine("Success! Price is changed!");
-                                    product.ShowMainProductInfo(selectedProduct);
-                                    Console.ResetColor();
-                                }
-                                else
-                                {
-                                    Console.ForegroundColor = ConsoleColor.Red;
-                                    Console.WriteLine("!!! Uncorrect price !!!");
-                                    Console.ResetColor();
+                                    Console.Write("Please enter new Price(Format ##,##):");
+                                    bool isCorrectPrice = decimal.TryParse(Console.ReadLine().Replace('.', ','),
+                                        out decimal newProductPrice);
+                                    if (isCorrectPrice && newProductPrice > 0)
+                                    {
+                                        product.ChangeProductPrice(selectedProduct, newProductPrice);
+                                        Console.ForegroundColor = ConsoleColor.Red;
+                                        Console.WriteLine("Success! Price is changed!");
+                                        product.ShowMainProductInfo(selectedProduct);
+                                        Console.ResetColor();
+                                    }
+                                    else
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Red;
+                                        Console.WriteLine("!!! Uncorrect price !!!");
+                                        Console.ResetColor();
+                                    }
                                 }
                             }
                         }
-                        else
+                        catch (FormatException formatException)
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("!!! Uncorrect product Id !!!");
-                            Console.ResetColor();
+                            LogService.Log(formatException);
+                        }
+                        catch (OverflowException overflowException)
+                        {
+                            LogService.Log(overflowException);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogService.Log(ex);
                         }
                         break;
                     case SellerMode.SoldItem:
@@ -319,71 +330,105 @@ namespace Shop.Classes
 
             Console.ResetColor();
             Console.Write("Select menu item:");
-            bool isCorrectMode = Enum.TryParse(Console.ReadLine(), out BuyerMode buyerModeType);
-
-            if (!isCorrectMode && !Enum.IsDefined(typeof(BuyerMode), buyerModeType))
+            try
             {
-                Console.Clear();
-                BuyerMenu();
-            }
-            else
-            {
-                switch (buyerModeType)
+                BuyerMode buyerModeType = Enum.Parse<BuyerMode>(Console.ReadLine());
+                if (!Enum.IsDefined(typeof(BuyerMode), buyerModeType))
                 {
-                    case BuyerMode.MainMenu:
-                        MainMenu();
-                        break;
-                    case BuyerMode.GetCustomerInf:
-                        customer1.GetInformationCustomer(customerRecord);
-                        break;
-                    case BuyerMode.GetStoreCard:
-                        customer.GetStoreCard(Customer.storeCard);
-                        break;
-                    case BuyerMode.BuyItem:
-                        customer.BuyProduct(product);
-                        break;
-                    case BuyerMode.ReturnItem:
-                        Console.WriteLine("All products in basket: ");
-                        customer.GetBasketItems();
-                        customer.DeleteProductFromBasket(product);
-                        break;
-                    case BuyerMode.ItemDetailsById:
-                        Console.Write("Please enter Id of product which you want get details:");
-                        bool isCorrectId = int.TryParse(Console.ReadLine(), out int productId);
-                        if (isCorrectId)
-                        {
-                            product.GetProductDetail(productId);
-                        }
-                        break;
-                    case BuyerMode.ItemDetailsByTitle:
-                        Console.Write("Please enter Title of product which you want get details:");
-                        string title = Console.ReadLine();
-                        product.GetProductDetail(title);
-                        break;
-                    case BuyerMode.GetAllItems:
-                        product.ShowProductsList();
-                        break;
-                    case BuyerMode.ItemMainDataById:
-                        product.ShowProductsList();
-                        Console.Write("Please enter Id of product which you want get details:");
-                        isCorrectId = int.TryParse(Console.ReadLine(), out productId);
-                        if (isCorrectId && product.ProductList.Any(x=>x.Id==productId))
-                        {
-                            product.ShowMainProductInfo(product.GetProduct(productId));
-                        }
-                        break;
-                    case BuyerMode.GetAllItemsInBasket:
-                        customer.GetBasketItems();
-                        break;
-                    case BuyerMode.GetAllItemsInBaskeByTitle:
-                        Console.Write("Please enter Title of product which you want see info:");
-                        string itemTitle = Console.ReadLine();
-                        customer.GetBasketItems(itemTitle);
-                        break;
-                    case BuyerMode.GetShopStatus:
-                        Console.WriteLine(OpenExtensions.GetStatusMessage(shop));
-                        break;
+                    Console.Clear();
+                    BuyerMenu();
                 }
+                else
+                {
+                    switch (buyerModeType)
+                    {
+                        case BuyerMode.MainMenu:
+                            MainMenu();
+                            break;
+                        case BuyerMode.GetCustomerInf:
+                            customer1.GetInformationCustomer(customerRecord);
+                            break;
+                        case BuyerMode.GetStoreCard:
+                            customer.GetStoreCard(Customer.storeCard);
+                            break;
+                        case BuyerMode.BuyItem:
+                            customer.BuyProduct(product);
+                            break;
+                        case BuyerMode.ReturnItem:
+                            Console.WriteLine("All products in basket:");
+                            customer.GetBasketItems();
+                            customer.DeleteProductFromBasket(product);
+                            break;
+                        case BuyerMode.ItemDetailsById:
+                            Console.Write("Please enter Id of product which you want get details:");
+                            try
+                            {
+                                int productIdDetail = int.Parse(Console.ReadLine());
+                                product.GetProductDetail(productIdDetail);
+                            }
+                            //Here save StackTrace
+                            catch (Exception ex)
+                            {
+                                LogService.Log(ex);
+                                throw;
+                            }
+                            break;
+                        case BuyerMode.ItemDetailsByTitle:
+                            Console.Write("Please enter Title of product which you want get details:");
+                            string title = Console.ReadLine();
+                            product.GetProductDetail(title);
+                            break;
+                        case BuyerMode.GetAllItems:
+                            product.ShowProductsList();
+                            break;
+                        case BuyerMode.ItemMainDataById:
+                            product.ShowProductsList();
+                            Console.Write("Please enter Id of product which you want get details:");
+                            try
+                            {
+                                int productId = int.Parse(Console.ReadLine());
+
+                                if (product.ProductList.Any(x => x.Id == productId))
+                                {
+                                    product.ShowMainProductInfo(product.GetProduct(productId));
+                                }
+                            }
+                            //Here re-write StackTrace
+                            catch (Exception ex)
+                            {
+                                LogService.Log(ex);
+                                throw new Exception($"Re-write StackTrace\n\n{ex.Message}");
+                            }
+                            break;
+                        case BuyerMode.GetAllItemsInBasket:
+                            customer.GetBasketItems();
+                            break;
+                        case BuyerMode.GetAllItemsInBaskeByTitle:
+                            Console.Write("Please enter Title of product which you want see info:");
+                            string itemTitle = Console.ReadLine();
+                            customer.GetBasketItems(itemTitle);
+                            break;
+                        case BuyerMode.GetShopStatus:
+                            Console.WriteLine(OpenExtensions.GetStatusMessage(shop));
+                            break;
+                    }
+                    BuyerMenu();
+                }
+            }
+            catch (ArgumentException argumentException)
+            {
+                LogService.Log(argumentException);
+            }
+            catch (OverflowException overflowException)
+            {
+                LogService.Log(overflowException);
+            }
+            catch (Exception ex)
+            {
+                LogService.Log(ex);
+            }
+            finally
+            {
                 BuyerMenu();
             }
         }
