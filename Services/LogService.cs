@@ -9,14 +9,16 @@ namespace Shop.Services
     public static class LogService
     {
         private const string ExceptionLogFile = "..//..//../ShopLog/ExceptionLogs.txt";
-        public static void Log(Exception exception)
+        public static void Log(Exception exception, bool showInConsole = true)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\n============Exception==========\n");
-            Console.WriteLine($"{exception.Message}");
-            Console.WriteLine("\n============Exception==========\n");
-            Console.ResetColor();
-
+            if (showInConsole)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\n============Exception==========\n");
+                Console.WriteLine($"{exception.Message}");
+                Console.WriteLine("\n============Exception==========\n");
+                Console.ResetColor();
+            }
             StringBuilder sb = new StringBuilder();
             sb.Append($"\n\n----------------------{DateTime.Now}----------------------\n\n");
             sb.Append($"Exception message:{exception.Message}\r\n");
@@ -24,7 +26,6 @@ namespace Shop.Services
             {
                 sb.Append($"StackTrace:{exception.StackTrace}");
             }
-            sb.Append("\n\n-----------------------------------------------------------");
             AddToFile(sb.ToString());
         }
         private static void AddToFile(string message)

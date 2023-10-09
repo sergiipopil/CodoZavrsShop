@@ -369,7 +369,7 @@ namespace Shop.Classes
                             //Here save StackTrace
                             catch (Exception ex)
                             {
-                                LogService.Log(ex);
+                                LogService.Log(ex, false);
                                 throw;
                             }
                             break;
@@ -396,7 +396,7 @@ namespace Shop.Classes
                             //Here re-write StackTrace
                             catch (Exception ex)
                             {
-                                LogService.Log(ex);
+                                LogService.Log(ex, false);
                                 throw new Exception($"Re-write StackTrace\n\n{ex.Message}");
                             }
                             break;
