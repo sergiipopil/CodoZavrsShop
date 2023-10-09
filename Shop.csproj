@@ -7,20 +7,12 @@
     <Nullable>enable</Nullable>
     
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Shop.LoginCode\**" />
-    <EmbeddedResource Remove="Shop.LoginCode\**" />
-    <None Remove="Shop.LoginCode\**" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="libphonenumber-csharp" Version="8.13.22" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LoginCode\LoginCode.csproj" />
     <ProjectReference Include="Shop.Core\Shop.Core.csproj" />
     <ProjectReference Include="Shop.LoginNewTestMark\Shop.LoginNewTestMark.csproj" />
   </ItemGroup>
