@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shop.Services
+namespace Shop.Logs.Services
 {
     public static class LogService
     {
-        private const string ExceptionLogFile = "..//..//../ShopLog/ExceptionLogs.txt";
+        private const string ExceptionLogFile = "..//..//..//Shop.Logs//ShopLog//ExceptionLogs.txt";
         public static void Log(Exception exception, bool showInConsole = true)
         {
             if (showInConsole)
