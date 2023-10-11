@@ -1,21 +1,9 @@
-﻿using PhoneNumbers;
-using Shop.LoginNewTestMark.Forms;
-
-using Shop.Classes.account;
+﻿
 using Shop.Classes.Extensions;
-using Shop.Classes.forms;
 using Shop.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Channels;
-using System.Threading.Tasks;
 using TaskShop.Classes;
 using Shop.Core.Classes;
-using Shop.LoginNewTestMark.Forms.BackLogic.AdditionalLogic;
-using Shop.Services;
+using Shop.Logs.Services;
 
 namespace Shop.Classes
 {

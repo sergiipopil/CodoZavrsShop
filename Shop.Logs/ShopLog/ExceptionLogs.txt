@@ -1,0 +1,8 @@
+﻿
+
+----------------------11.10.2023 14:22:37----------------------
+
+Exception message:Value was either too large or too small for an Int32.
+StackTrace:   at System.Number.ThrowOverflowOrFormatException(ParsingStatus status, ReadOnlySpan`1 value, TypeCode type)
+   at System.Int32.Parse(String s)
+   at Shop.Classes.ShopMenu.SellerMenu() in C:\Users\User\Source\Repos\CodoZavrs_Shop111Logs\Classes\ShopMenu.cs:line 232

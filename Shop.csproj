@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="Shop.Core\Shop.Core.csproj" />
     <ProjectReference Include="Shop.LoginNewTestMark\Shop.LoginNewTestMark.csproj" />
+    <ProjectReference Include="Shop.Logs\Shop.Logs.csproj" />
   </ItemGroup>
 
 </Project>
