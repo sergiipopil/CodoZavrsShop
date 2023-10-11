@@ -14,6 +14,7 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using TaskShop.Classes;
 using Shop.Core.Classes;
+using Shop.LoginNewTestMark.Forms.BackLogic.AdditionalLogic;
 using Shop.Services;
 
 namespace Shop.Classes
@@ -193,6 +194,10 @@ namespace Shop.Classes
                         registrationForm.NewRegistrationForm();
                         break;
                     case AppMode.Loggin:
+                        //Temporary code.
+                        // NameResetLogic testLogic = new NameResetLogic();
+                        // testLogic.ToString();
+                        
                         LoginNewTestMark.Forms.LoginForm userLoggin = new LoginNewTestMark.Forms.LoginForm();
                         userLoggin.TryLogin();
                         break;

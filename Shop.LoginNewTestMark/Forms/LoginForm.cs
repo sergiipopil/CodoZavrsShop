@@ -79,6 +79,7 @@ namespace Shop.LoginNewTestMark.Forms
                             {
                                 Console.WriteLine($"Your passwords do not match, you still have {resetAttempts - 1} chance(s)");
                             }
+                            
                         }
                     }
 

@@ -23,12 +23,26 @@ namespace Shop.LoginNewTestMark.Forms
             return !string.IsNullOrEmpty(password) && password == newPassword && ValidationHelper.IsValidPassword(password);
         }
 
+        // private static bool IsValidEmail(string email)
+        // {
+        //     if (email == null)
+        //         return false;
+        //
+        //     string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+        //     return Regex.IsMatch(email, pattern);
+        // }
+        
         private static bool IsValidEmail(string email)
         {
-            if (email == null)
-                return false;
+            if (email == null) return false;
 
             string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+
+            if (!Regex.IsMatch(email, pattern))
+            {
+                throw new Exception("Invalid email format");
+            }
+            
             return Regex.IsMatch(email, pattern);
         }
 
@@ -36,9 +50,6 @@ namespace Shop.LoginNewTestMark.Forms
         {
             return !string.IsNullOrEmpty(name) && char.IsUpper(name[0]) && name.Substring(1).All(char.IsLetter);
         }
-
-
-
 
         //Registration Form
         public void NewRegistrationForm()
@@ -75,9 +86,6 @@ namespace Shop.LoginNewTestMark.Forms
                 Console.WriteLine("All attempts have been exhausted. Registration failed.");
             }
         }
-
-
-
 
         private string GetValidInput(string fieldName, Func<string, bool> validator)
         {
@@ -159,6 +167,10 @@ namespace Shop.LoginNewTestMark.Forms
                     attempts--;
                     Console.WriteLine("You have " + attempts + " attempt(s) left.");
                     isPhoneNumberValid = false;
+                }
+                finally
+                {
+                    Console.Write("Re-try latter.");
                 }
             } while (attempts > 0);
 

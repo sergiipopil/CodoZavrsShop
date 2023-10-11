@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shop.LoginNewTestMark.Forms.BackLogic
 {
-    abstract class LoginLogic
+    internal abstract class LoginLogic
     {
         protected const string FileName = "UserData.json";
 
