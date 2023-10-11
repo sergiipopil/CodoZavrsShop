@@ -51,10 +51,10 @@ namespace Shop.LoginNewTestMark.Forms
                     var fullNameConst = $"{firstName} Your password was right: {password}";
                     Console.WriteLine($"Login successful. Hello {fullNameConst}");
 
-                    Console.WriteLine("Would you like to change your password \"yes / no\"?");
+                    Console.WriteLine("Would you like to change your password or username \"password / username\"?");
                     string userPassword = Console.ReadLine();
 
-                    if (userPassword == "yes")
+                    if (userPassword == "password")
                     {
                         for (int resetAttempts = MaxAttemptsForReset; resetAttempts > 0; resetAttempts--)
                         {
@@ -79,7 +79,37 @@ namespace Shop.LoginNewTestMark.Forms
                             {
                                 Console.WriteLine($"Your passwords do not match, you still have {resetAttempts - 1} chance(s)");
                             }
-                            
+
+                        }
+                    }
+
+                    if (userPassword == "username")
+                    {
+                        for (int resetAttempts = MaxAttemptsForReset; resetAttempts > 0; resetAttempts--)
+                        {
+                            string newName;
+                            Console.WriteLine("Enter your name: ");
+                            newName = Console.ReadLine();
+
+                            var logic = new NameResetLogic();
+                            bool success = NameResetLogic.ResetUserName(firstName, newName);
+
+                            if (success)
+                            {
+                                Console.WriteLine($"Name for user {firstName} has been reset.");
+                                string userPasswordAdd = logic.GetNewPassword(newName);
+                                Console.WriteLine($"AdditionalProperty: {firstName}, {logic.AdditionalProperty}");
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Your passwords do not match, you still have {resetAttempts - 1} chance(s)");
+                            }
+                            //do
+                            //{
+                            //    Console.WriteLine("Enter your password: ");
+                            //   newName = Console.ReadLine();
+                            //} while (!IsValidPassword(newName));
                         }
                     }
 
