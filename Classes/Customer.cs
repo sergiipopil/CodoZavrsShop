@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CustomerLogic.Classes;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -7,32 +8,54 @@ using System.Threading.Tasks;
 
 namespace Shop.Classes
 {
-    internal class Customer
+    internal class Customer : CustomerAbstract
     {
         private decimal _cash;
         public decimal Cash
         {
             get
-            {
-                return _cash;
-            }
+            { return _cash; }
             set
-            {
-                _cash = value;
-            }
+            { _cash = value; }
         }
         public const int storeCard = 123456789;
-        public readonly string FirstName;
-        public string LastName { get; set; }
-        public required long NumberPhone { get; set; }
 
         [SetsRequiredMembers]
-        public Customer(string firstName, string lastName, long numberPhone, decimal cash)
+        public Customer(string firstName, string lastName, long numberPhone, decimal cash, CustomerRecord customerRecord)
         {
             this.FirstName = firstName;
             this.LastName = lastName;
             this.NumberPhone = numberPhone;
             this.Cash = cash;
+            this.CustomerRecord = customerRecord;
+        }
+        private int age;
+        public override int Age { get { return age; } }
+        CustomerRecord CustomerRecord { get; }
+
+        public override int GetAge()
+        {
+            DateTime today = DateTime.Today;
+            age = today.Year - CustomerRecord.BirthDay.Year;
+            return age;
+        }
+        public override string CustomerAdult()
+        {
+            string masage = string.Empty;
+            if (Age < 18)
+            {
+                masage = "You aren`t adult!";
+            }
+            else
+            {
+                masage = "You are adult!";
+            }
+            return masage;
+        }
+
+        public new void GetFullName()
+        {
+            Console.WriteLine($"You are {LastName} {FirstName}");
         }
     }
 }

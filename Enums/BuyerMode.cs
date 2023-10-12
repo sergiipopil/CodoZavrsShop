@@ -13,7 +13,8 @@
         ItemMainDataById=8,
         GetAllItemsInBasket = 9,
         GetAllItemsInBaskeByTitle = 10,
-        GetShopStatus = 11
+        GetShopStatus = 11,
+        ShowUpCast = 12
 
     }
 }
