@@ -4,12 +4,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop", "Shop.csproj", "{890D54FC-5C7F-4032-8D82-F9B05DB01CF5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{280F03B1-BC6C-488F-AFE8-47D29DE78511} = {280F03B1-BC6C-488F-AFE8-47D29DE78511}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Core", "Shop.Core\Shop.Core.csproj", "{2DC0ADE2-32C8-4489-90F4-1782A9818D9B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.LoginNewTestMark", "Shop.LoginNewTestMark\Shop.LoginNewTestMark.csproj", "{1A29EF24-E8E7-4333-9C1A-36DB1E6EF215}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Logs", "Shop.Logs\Shop.Logs.csproj", "{E623B356-F286-45CF-8145-C56B8B5EFF9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Logs", "Shop.Logs\Shop.Logs.csproj", "{E623B356-F286-45CF-8145-C56B8B5EFF9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerLogic", "CustomerLogic\CustomerLogic.csproj", "{280F03B1-BC6C-488F-AFE8-47D29DE78511}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +38,10 @@ Global
 		{E623B356-F286-45CF-8145-C56B8B5EFF9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E623B356-F286-45CF-8145-C56B8B5EFF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E623B356-F286-45CF-8145-C56B8B5EFF9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{280F03B1-BC6C-488F-AFE8-47D29DE78511}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{280F03B1-BC6C-488F-AFE8-47D29DE78511}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{280F03B1-BC6C-488F-AFE8-47D29DE78511}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{280F03B1-BC6C-488F-AFE8-47D29DE78511}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

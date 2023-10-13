@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shop.Classes
+namespace Shop.Classes.Extensions
 {
     internal static class CustomerExtension
     {
@@ -13,7 +13,7 @@ namespace Shop.Classes
             Console.WriteLine($"\nCustomer information:\n\n" +
                $"Name - {customer.FirstName}\n" +
                $"Surname - {customer.LastName}\n" +
-               $"Birthday - {customerRecord.BirthDay}\n" +
+               $"Age - {customer.Age}\n" +
                $"Phone number - {customer.NumberPhone}\n" +
                $"Customer cach - {customer.Cash}\n" +
                $"Customer discount % - {customerRecord.Discount}\n"

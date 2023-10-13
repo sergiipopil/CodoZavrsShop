@@ -4,6 +4,7 @@ using Shop.Enums;
 using TaskShop.Classes;
 using Shop.Core.Classes;
 using Shop.Logs.Services;
+using CustomerLogic.Classes;
 
 namespace Shop.Classes
 {
@@ -33,10 +34,10 @@ namespace Shop.Classes
             Email = "codozavrsShop@gmail.com"
         };
 
-        private CustomerManager customer = new();
-
-        private Customer customer1 = new Customer("Ivan", "Ivanchenko", 3806661177, 5000);
-        private CustomerRecord customerRecord = new(new DateTime(2002, 12, 01), 5);
+        private CustomerManager customerManager = new();
+        private static CustomerRecord customerRecord = new(new DateTime(2002, 12, 01), 5);
+        private Customer customer = new Customer("Ivan", "Ivanchenko", 3806661177, 5000, customerRecord);
+        private CustomerAbstract customerUpCast = new Customer("Ivan", "Ivanchenko", 3806661177, 5000, customerRecord);
 
         public ShopMenu()
         {
@@ -315,7 +316,8 @@ namespace Shop.Classes
                 "Press 8 - Get item main info by Id\n" +
                 "Press 9 - Get info all items in basket\n" +
                 "Press 10 - Get info item in basket by title\n" +
-                "Press 11 - Get Shop Status\n");
+                "Press 11 - Get Shop Status\n" +
+                "Press 12 - Show UpCast\n");
 
             Console.ResetColor();
             Console.Write("Select menu item:");
@@ -335,18 +337,35 @@ namespace Shop.Classes
                             MainMenu();
                             break;
                         case BuyerMode.GetCustomerInf:
-                            customer1.GetInformationCustomer(customerRecord);
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine($"Press 1 if you want full informafion or \n" +
+                                               "press 2 if you want basic information: \n");
+                            Console.ResetColor();
+                            bool isCorrectPress = int.TryParse(Console.ReadLine(), out int correctSelect);
+                            if (isCorrectPress)
+                            {
+                                customer.GetAge();
+                                switch (correctSelect)
+                                {
+                                    case 1:
+                                        customer.GetInformationCustomer(customerRecord);
+                                        break;
+                                    case 2:
+                                        customerManager.GetBasicInformationCustomer(customer);
+                                        break;
+                                }
+                            }
                             break;
                         case BuyerMode.GetStoreCard:
-                            customer.GetStoreCard(Customer.storeCard);
+                            customerManager.GetStoreCard(Customer.storeCard);
                             break;
                         case BuyerMode.BuyItem:
-                            customer.BuyProduct(product);
+                            customerManager.BuyProduct(product);
                             break;
                         case BuyerMode.ReturnItem:
                             Console.WriteLine("All products in basket:");
-                            customer.GetBasketItems();
-                            customer.DeleteProductFromBasket(product);
+                            customerManager.GetBasketItems();
+                            customerManager.DeleteProductFromBasket(product);
                             break;
                         case BuyerMode.ItemDetailsById:
                             Console.Write("Please enter Id of product which you want get details:");
@@ -390,15 +409,24 @@ namespace Shop.Classes
                             }
                             break;
                         case BuyerMode.GetAllItemsInBasket:
-                            customer.GetBasketItems();
+                            customerManager.GetBasketItems();
                             break;
                         case BuyerMode.GetAllItemsInBaskeByTitle:
                             Console.Write("Please enter Title of product which you want see info:");
                             string itemTitle = Console.ReadLine();
-                            customer.GetBasketItems(itemTitle);
+                            customerManager.GetBasketItems(itemTitle);
                             break;
                         case BuyerMode.GetShopStatus:
                             Console.WriteLine(OpenExtensions.GetStatusMessage(shop));
+                            break;
+                        case BuyerMode.ShowUpCast:
+                            Console.Write("your full name is: ");
+                            customer.GetFullName();
+                            Console.WriteLine($"You are : {customer.CustomerAdult()}");
+
+                            Console.Write("your full name is: ");
+                            customerUpCast.GetFullName();
+                            Console.WriteLine($"You are : {customerUpCast.CustomerAdult()}");
                             break;
                     }
                     BuyerMenu();

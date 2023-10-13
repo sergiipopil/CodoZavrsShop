@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CustomerLogic.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Classes
 {
-    internal class CustomerManager
+    internal class CustomerManager : CustomerManagerAbstract<CustomerAbstract>
     {
         Basket basket = new Basket();
 
