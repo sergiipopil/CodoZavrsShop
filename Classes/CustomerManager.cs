@@ -52,27 +52,13 @@ namespace Shop.Classes
                 {
                     while (attempts < maxAttempts)
                     {
-
                         Console.Write("Enter Id of product which you want to buy: ");
                         int productId = int.Parse(Console.ReadLine());
-
-                        object isCorrectProductId = new();
-                        try
-                        {
-                         isCorrectProductId = product.ProductList.FirstOrDefault(x => x.Id == productId);
-
-                        }
-                        catch (KeyNotFoundException NotImplementEx)
-                        {
-                            Console.WriteLine(NotImplementEx.StackTrace);
-                            Console.WriteLine(NotImplementEx.Message);
-                            throw NotImplementEx;
-                        }
-
+                        bool isCorrectProductId = product.ProductList.FirstOrDefault(x => x.Id == productId) != null;
                         // bool isCorrectProductId = int.TryParse(Console.ReadLine(), out int productId);
                         // isCorrectProductId = product.ProductList.FirstOrDefault(x => x.Id == productId) != null;
 
-                        if(isCorrectProductId!=null)
+                        if (isCorrectProductId)
                         {
                             Product selectedProduct = product.GetProduct(productId);
                             Console.Write("Enter count: ");
@@ -89,13 +75,9 @@ namespace Shop.Classes
                             GetBasketItems();
                             return;
                         }
-                        break;
                         ++attempts;
                         Console.WriteLine($"Error! Attempt {attempts} of {maxAttempts}.");
                     }
-
-
-
                 }
                 catch (ArgumentNullException ArgNullEx)
                 {
@@ -103,18 +85,18 @@ namespace Shop.Classes
                     Console.WriteLine(ArgNullEx.Message);
                     throw;
                 }
-                catch (KeyNotFoundException NotImplementEx)
+                catch (KeyNotFoundException KeyFEx)
                 {
-                    Console.WriteLine(NotImplementEx.StackTrace);
-                    Console.WriteLine(NotImplementEx.Message);
-                    throw NotImplementEx;
+                    Console.WriteLine(KeyFEx.StackTrace);
+                    Console.WriteLine(KeyFEx.Message);
+                    throw KeyFEx;
                 }
-            }catch (Exception Ex)
+            }catch(Exception Ex) 
             {
                 Console.WriteLine(Ex.StackTrace);
-                Console.WriteLine();
                 Console.WriteLine(Ex.Message);
             }
+            
         }
         
 
