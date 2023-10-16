@@ -41,16 +41,7 @@ namespace Shop.Classes
         }
         public override string CustomerAdult()
         {
-            string masage = string.Empty;
-            if (Age < 18)
-            {
-                masage = "You aren`t adult!";
-            }
-            else
-            {
-                masage = "You are adult!";
-            }
-            return masage;
+            return Age < 18 ? "You aren`t adult!" : "You are adult!";
         }
 
         public new void GetFullName()
