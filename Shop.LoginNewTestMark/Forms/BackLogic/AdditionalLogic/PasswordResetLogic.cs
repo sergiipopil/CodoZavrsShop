@@ -10,7 +10,6 @@ namespace Shop.LoginNewTestMark.Forms.BackLogic.AdditionalLogic
 {
     class PasswordResetLogic : LoginLogic
     {
-        
         public string Password { get; set; }
 
         public static bool IsMatch(string password)
@@ -28,48 +27,60 @@ namespace Shop.LoginNewTestMark.Forms.BackLogic.AdditionalLogic
             return Password;
         }
 
-        public override string AdditionalProperty
+        public override string AdditionalProperty => "please don't tell anyone your password";
+
+        private static void SaveUserList(List<RegistrationLogic> userList)
         {
-            get { return "please don't tell anyone your password"; }
+            File.WriteAllText(FileName, JsonConvert.SerializeObject(userList, Newtonsoft.Json.Formatting.Indented));
+        }
+
+        private static List<RegistrationLogic> LoadUserList()
+        {
+            if (!File.Exists(FileName))
+            {
+                throw new FileNotFoundException($"File {FileName} not found.");
+            }
+            string jsonFromFile = File.ReadAllText(FileName);
+
+            return JsonConvert.DeserializeObject<List<RegistrationLogic>>(jsonFromFile);
         }
 
         public static bool ResetPassword(string firstName, string newPassword)
         {
             try
             {
-                if (!File.Exists(FileName))
+                try
                 {
-                    throw new FileNotFoundException($"File {FileName} not found.");
+                    List<RegistrationLogic> userList = LoadUserList();
+
+                    RegistrationLogic user = userList.Find(u => u.FirstName == firstName);
+
+                    if (user != null && IsMatch(newPassword))
+                    {
+                        user.Password = newPassword;
+                        SaveUserList(userList);
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"User with first name: \"{firstName}\" not found.");
+                        return false;
+                    }
                 }
-
-                string jsonFromFile = File.ReadAllText(FileName);
-                List<RegistrationLogic> userList = JsonConvert.DeserializeObject<List<RegistrationLogic>>(jsonFromFile);
-
-                RegistrationLogic user = userList.Find(u => u.FirstName == firstName);
-
-                if (user != null && IsMatch(newPassword))
+                catch (FileNotFoundException ex)
                 {
-                    user.Password = newPassword;
-
-                    File.WriteAllText(FileName, JsonConvert.SerializeObject(userList, Newtonsoft.Json.Formatting.Indented));
-
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"User with first name: \"{firstName}\" not found.");
+                    Console.WriteLine(ex.Message);
                     return false;
                 }
-            }
-            catch (FileNotFoundException ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occured: {ex}");
                 return false;
+            }
+            finally
+            {
+                Console.WriteLine("Finally block executed.");
             }
         }
     }

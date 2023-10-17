@@ -16,7 +16,7 @@ namespace Shop.LoginNewTestMark.Forms.BackLogic
         public string PhoneNumber { get; set; }
 
         private static readonly List<RegistrationLogic> users = new List<RegistrationLogic>();
-        
+
         public string Notification { get; set; }
 
         public RegistrationLogic() { }
