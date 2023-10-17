@@ -1,15 +1,15 @@
-﻿using Shop.LoginNewTestMark.Extensions;
-using Shop.LoginNewTestMark.Forms.BackLogic.AdditionalLogic;
-using Shop.LoginNewTestMark.Forms.BackLogic;
+﻿using Shop.Login.Extensions;
+using Shop.Login.Forms.BackLogic.AdditionalLogic;
+using Shop.Login.Forms.BackLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Shop.LoginNewTestMark.Forms.BackLogic.Validation;
+using Shop.Login.Forms.BackLogic.Validation;
 
 
-namespace Shop.LoginNewTestMark.Forms
+namespace Shop.Login.Forms
 {
     public record UserInfo(string FirstName, string Password);
 

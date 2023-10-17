@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Shop.LoginNewTestMark.Forms.BackLogic.Validation
+namespace Shop.Login.Forms.BackLogic.Validation
 {
     public static class ValidationHelper
     {

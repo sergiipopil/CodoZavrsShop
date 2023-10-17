@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
-using Shop.LoginNewTestMark.Forms.BackLogic.Validation;
-using Shop.LoginNewTestMark.Forms.BackLogic;
+using Shop.Login.Forms.BackLogic.Validation;
+using Shop.Login.Forms.BackLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shop.LoginNewTestMark.Inheritances
+namespace Shop.Login.Inheritances
 {
     public class JsonFiles
     {

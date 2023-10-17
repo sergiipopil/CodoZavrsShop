@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Shop.LoginNewTestMark.Inheritances;
-using Shop.LoginNewTestMark.Forms.BackLogic.Validation;
+using Shop.Login.Inheritances;
+using Shop.Login.Forms.BackLogic.Validation;
 
-namespace Shop.LoginNewTestMark.Forms.BackLogic
+namespace Shop.Login.Forms.BackLogic
 {
     internal abstract class LoginLogic : JsonFiles
     {

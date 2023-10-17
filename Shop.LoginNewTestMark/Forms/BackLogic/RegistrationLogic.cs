@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shop.LoginNewTestMark.Forms.BackLogic
+namespace Shop.Login.Forms.BackLogic
 {
     public class RegistrationLogic
     {

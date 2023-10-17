@@ -1,7 +1,7 @@
 ﻿using PhoneNumbers;
-using Shop.LoginNewTestMark.Forms.BackLogic;
-using Shop.LoginNewTestMark.Forms.BackLogic.Validation;
-using Shop.LoginNewTestMark.Forms.BackLogic.Validation;
+using Shop.Login.Forms.BackLogic;
+using Shop.Login.Forms.BackLogic.Validation;
+using Shop.Login.Forms.BackLogic.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Shop.LoginNewTestMark.Forms
+namespace Shop.Login.Forms
 {
     public class RegistrationForm
     {

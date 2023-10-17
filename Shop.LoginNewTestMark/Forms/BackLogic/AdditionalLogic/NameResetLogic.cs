@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Shop.LoginNewTestMark.Forms.BackLogic.Validation;
-using Shop.LoginNewTestMark.Forms.BackLogic.Validation;
+using Shop.Login.Forms.BackLogic.Validation;
+using Shop.Login.Forms.BackLogic.Validation;
 using System.Linq;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Shop.LoginNewTestMark.Forms.BackLogic.AdditionalLogic
+namespace Shop.Login.Forms.BackLogic.AdditionalLogic
 {
     class NameResetLogic : LoginLogic
     {
