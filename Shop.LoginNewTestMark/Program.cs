@@ -1,4 +1,4 @@
-﻿namespace Shop.LoginNewTestMark
+﻿namespace Shop.Login
 {
     internal class Program
     {

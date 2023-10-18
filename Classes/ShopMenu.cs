@@ -179,11 +179,11 @@ namespace Shop.Classes
                         BuyerMenu();
                         break;
                     case AppMode.Registration:
-                        LoginNewTestMark.Forms.RegistrationForm registrationForm = new LoginNewTestMark.Forms.RegistrationForm();
+                        Login.Forms.RegistrationForm registrationForm = new Login.Forms.RegistrationForm();
                         registrationForm.NewRegistrationForm();
                         break;
                     case AppMode.Loggin:
-                        LoginNewTestMark.Forms.LoginForm userLoggin = new LoginNewTestMark.Forms.LoginForm();
+                        Login.Forms.LoginForm userLoggin = new Login.Forms.LoginForm();
                         userLoggin.TryLogin();
                         break;
 
