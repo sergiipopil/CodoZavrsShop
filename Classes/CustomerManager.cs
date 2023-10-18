@@ -45,35 +45,58 @@ namespace Shop.Classes
             int attempts = 0;
             int maxAttempts = 3;
 
-            product.ShowProductsList();
-
-            while (attempts < maxAttempts)
+           product.ShowProductsList();
+            try
             {
-                Console.Write("Enter Id of product which you want to buy: ");
-                bool isCorrectProductId = int.TryParse(Console.ReadLine(), out int productId);
-                isCorrectProductId = product.ProductList.FirstOrDefault(x => x.Id == productId) != null;
-
-                if (isCorrectProductId)
+                try
                 {
-                    Product selectedProduct = product.GetProduct(productId);
-                    Console.Write("Enter count: ");
-                    bool isCorrectCount = int.TryParse(Console.ReadLine(), out int productCount);
-                    isCorrectCount = selectedProduct.Count >= productCount;
-
-                    if (isCorrectCount)
-                        PutDownInBasket(selectedProduct, productCount);
-                    else
+                    while (attempts < maxAttempts)
                     {
-                        Console.WriteLine("There is not enough product in the store");
-                        break;
-                    }
-                    GetBasketItems();
-                    return;
-                }
-                ++attempts;
-                Console.WriteLine($"Error! Attempt {attempts} of {maxAttempts}.");
+                        Console.Write("Enter Id of product which you want to buy: ");
+                        int productId = int.Parse(Console.ReadLine());
+                        bool isCorrectProductId = product.ProductList.FirstOrDefault(x => x.Id == productId) != null;
+                        // bool isCorrectProductId = int.TryParse(Console.ReadLine(), out int productId);
+                        // isCorrectProductId = product.ProductList.FirstOrDefault(x => x.Id == productId) != null;
 
+                        if (isCorrectProductId)
+                        {
+                            Product selectedProduct = product.GetProduct(productId);
+                            Console.Write("Enter count: ");
+                            bool isCorrectCount = int.TryParse(Console.ReadLine(), out int productCount);
+                            isCorrectCount = selectedProduct.Count >= productCount;
+
+                            if (isCorrectCount)
+                                PutDownInBasket(selectedProduct, productCount);
+                            else
+                            {
+                                Console.WriteLine("There is not enough product in the store");
+                                break;
+                            }
+                            GetBasketItems();
+                            return;
+                        }
+                        ++attempts;
+                        Console.WriteLine($"Error! Attempt {attempts} of {maxAttempts}.");
+                    }
+                }
+                catch (ArgumentNullException ArgNullEx)
+                {
+                    Console.WriteLine(ArgNullEx.StackTrace);
+                    Console.WriteLine(ArgNullEx.Message);
+                    throw;
+                }
+                catch (KeyNotFoundException KeyFEx)
+                {
+                    Console.WriteLine(KeyFEx.StackTrace);
+                    Console.WriteLine(KeyFEx.Message);
+                    throw KeyFEx;
+                }
+            }catch(Exception Ex) 
+            {
+                Console.WriteLine(Ex.StackTrace);
+                Console.WriteLine(Ex.Message);
             }
+            
         }
         
 
