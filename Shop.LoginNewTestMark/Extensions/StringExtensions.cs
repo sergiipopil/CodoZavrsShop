@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shop.LoginNewTestMark.Extensions
+namespace Shop.Login.Extensions
 {
     public static class StringExtensions
     {

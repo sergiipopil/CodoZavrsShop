@@ -10,11 +10,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop", "Shop.csproj", "{890
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Core", "Shop.Core\Shop.Core.csproj", "{2DC0ADE2-32C8-4489-90F4-1782A9818D9B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.LoginNewTestMark", "Shop.LoginNewTestMark\Shop.LoginNewTestMark.csproj", "{1A29EF24-E8E7-4333-9C1A-36DB1E6EF215}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Login", "Shop.LoginNewTestMark\Shop.Login.csproj", "{1A29EF24-E8E7-4333-9C1A-36DB1E6EF215}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Logs", "Shop.Logs\Shop.Logs.csproj", "{E623B356-F286-45CF-8145-C56B8B5EFF9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerLogic", "CustomerLogic\CustomerLogic.csproj", "{280F03B1-BC6C-488F-AFE8-47D29DE78511}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerLogic", "CustomerLogic\CustomerLogic.csproj", "{280F03B1-BC6C-488F-AFE8-47D29DE78511}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

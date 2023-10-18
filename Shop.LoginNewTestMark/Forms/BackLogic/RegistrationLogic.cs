@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shop.LoginNewTestMark.Forms.BackLogic
+namespace Shop.Login.Forms.BackLogic
 {
     public class RegistrationLogic
     {
@@ -16,7 +16,7 @@ namespace Shop.LoginNewTestMark.Forms.BackLogic
         public string PhoneNumber { get; set; }
 
         private static readonly List<RegistrationLogic> users = new List<RegistrationLogic>();
-        
+
         public string Notification { get; set; }
 
         public RegistrationLogic() { }
