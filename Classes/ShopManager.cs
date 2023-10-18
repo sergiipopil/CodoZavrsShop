@@ -10,7 +10,25 @@ namespace Shop.Classes
     {
         public void Open(Shop shop)
         {
-            shop.IsOpened = true;
+            try
+            {
+                try
+                {
+                    shop.IsOpened = true;
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine("Inner FormatException: " + ex.Message);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    Console.WriteLine("Inner ArgumentNullException: " + ex.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Outer General Exception: " + ex.Message);
+            }
         }
 
         public void Open(Shop shop, string openTime)
