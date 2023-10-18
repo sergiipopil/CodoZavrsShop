@@ -22,8 +22,23 @@ namespace Shop.Classes
 
         public void Close(Shop shop)
         {
-            shop.IsOpened = false;
-            Console.WriteLine($"Store {shop.Name} is closed at the address {Shop.Location}, StoreId:{shop.ShopID}");
+            try
+            {
+                shop.IsOpened = false;
+                Console.WriteLine($"Store {shop.Name} is closed at the address {Shop.Location}, StoreId:{shop.ShopID}");
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine("Close FormatException: " + ex.Message);
+                //Saving StackTrace
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Close General Exception: " + ex.Message);
+                //Griding StackTrace
+                throw ex;
+            }
         }
     }
 }
